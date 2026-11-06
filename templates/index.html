@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Risk Assessment - AI Prediction System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="grain-overlay"></div>
+    
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <span class="logo-accent">◆</span>
+                    DiabetesAI
+                </h1>
+                <p class="tagline">Intelligent Risk Assessment System</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="hero">
+                <h2 class="hero-title">
+                    Early Detection,<br>
+                    <span class="gradient-text">Better Outcomes</span>
+                </h2>
+                <p class="hero-description">
+                    Advanced machine learning powered by Random Forest algorithms 
+                    to assess diabetes risk based on clinical indicators.
+                </p>
+            </section>
+
+            <div class="content-grid">
+                <section class="form-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Patient Information</h3>
+                            <p class="card-subtitle">Enter clinical measurements</p>
+                        </div>
+                        
+                        <form id="predictionForm" class="prediction-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="pregnancies" class="form-label">
+                                        Pregnancies
+                                        <span class="label-hint">Number of times</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="pregnancies" 
+                                        name="pregnancies" 
+                                        class="form-input"
+                                        min="0" 
+                                        max="20"
+                                        required
+                                        placeholder="0-20"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="glucose" class="form-label">
+                                        Glucose Level
+                                        <span class="label-hint">mg/dL</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="glucose" 
+                                        name="glucose" 
+                                        class="form-input"
+                                        min="0" 
+                                        max="300"
+                                        required
+                                        placeholder="70-200"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bloodPressure" class="form-label">
+                                        Blood Pressure
+                                        <span class="label-hint">mm Hg</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="bloodPressure" 
+                                        name="bloodPressure" 
+                                        class="form-input"
+                                        min="0" 
+                                        max="200"
+                                        required
+                                        placeholder="60-120"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="skinThickness" class="form-label">
+                                        Skin Thickness
+                                        <span class="label-hint">mm</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="skinThickness" 
+                                        name="skinThickness" 
+                                        class="form-input"
+                                        min="0" 
+                                        max="100"
+                                        required
+                                        placeholder="10-50"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="insulin" class="form-label">
+                                        Insulin Level
+                                        <span class="label-hint">μU/mL</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="insulin" 
+                                        name="insulin" 
+                                        class="form-input"
+                                        min="0" 
+                                        max="900"
+                                        required
+                                        placeholder="0-300"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bmi" class="form-label">
+                                        BMI
+                                        <span class="label-hint">kg/m²</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="bmi" 
+                                        name="bmi" 
+                                        class="form-input"
+                                        step="0.1"
+                                        min="0" 
+                                        max="70"
+                                        required
+                                        placeholder="18-40"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="diabetesPedigree" class="form-label">
+                                        Diabetes Pedigree
+                                        <span class="label-hint">Function value</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="diabetesPedigree" 
+                                        name="diabetesPedigree" 
+                                        class="form-input"
+                                        step="0.001"
+                                        min="0" 
+                                        max="3"
+                                        required
+                                        placeholder="0.1-2.5"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="age" class="form-label">
+                                        Age
+                                        <span class="label-hint">years</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="age" 
+                                        name="age" 
+                                        class="form-input"
+                                        min="1" 
+                                        max="120"
+                                        required
+                                        placeholder="21-81"
+                                    >
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-primary" id="predictBtn">
+                                <span class="btn-text">Assess Risk</span>
+                                <span class="btn-icon">→</span>
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="results-section">
+                    <div class="card" id="resultsCard" style="display: none;">
+                        <div class="card-header">
+                            <h3 class="card-title">Risk Assessment</h3>
+                        </div>
+                        
+                        <div id="results" class="results-content">
+                            <!-- Results will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h4 class="info-title">About This System</h4>
+                        <p class="info-text">
+                            This AI-powered system uses the Pima Indians Diabetes Database 
+                            and Random Forest machine learning algorithms to predict diabetes 
+                            risk based on diagnostic measurements.
+                        </p>
+                        <div class="info-stats">
+                            <div class="stat">
+                                <div class="stat-value">768</div>
+                                <div class="stat-label">Training Samples</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">8</div>
+                                <div class="stat-label">Clinical Features</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">~85%</div>
+                                <div class="stat-label">Model Accuracy</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">
+                CBSE Class 12 Capstone Project | AI-Powered Medical Prediction System
+            </p>
+            <p class="disclaimer">
+                ⚠ This is an educational tool. Always consult healthcare professionals for medical advice.
+            </p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
